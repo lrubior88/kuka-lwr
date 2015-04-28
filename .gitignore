@@ -13,8 +13,7 @@
 *.a
 
 # ROS Warehouse databases
-ros/kuka_lwr/lwr_moveit/default_warehouse_mongo_db
-ros/kuka-lwr/lwr_moveit/default_warehouse_mongo_db/local.*
-ros/kuka_lwr/lwr_moveit/default_warehouse_mongo_db/mongod.lock
-ros/kuka_lwr/lwr_moveit/default_warehouse_mongo_db/journal/prealloc.*
-
+lwr_moveit/default_warehouse_mongo_db
+lwr_moveit/default_warehouse_mongo_db/local.*
+lwr_moveit/default_warehouse_mongo_db/mongod.lock
+lwr_moveit/default_warehouse_mongo_db/journal/prealloc.*
