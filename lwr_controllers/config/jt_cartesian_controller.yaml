@@ -1,6 +1,6 @@
 # Expected frame id of the ik commands
-frame_id: base_link
-tip_link: ft_sensor
+frame_id: lwr_base_link
+tip_link: lwr_7_link
 # Publish Rate in [Hz] of the torque commands
 publish_rate: 500
 

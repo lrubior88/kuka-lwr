@@ -28,7 +28,7 @@ class JTCartesianController(object):
     self.kp = joint_list_to_kdl(gains['Kp'])
     self.kd = joint_list_to_kdl(gains['Kd'])
     self.publish_rate = read_parameter('~publish_rate', 500)
-    self.frame_id = read_parameter('~frame_id', 'world')
+    self.frame_id = read_parameter('~frame_id', 'lwr_base_link')
     self.tip_link = read_parameter('~tip_link', 'lwr_7_link')
     # Kinematics
     self.urdf = URDF.from_parameter_server(key='robot_description')

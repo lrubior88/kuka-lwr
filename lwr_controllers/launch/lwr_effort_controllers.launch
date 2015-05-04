@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <!-- load controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find lwr_controllers)/config/joint_effort_controllers.yaml" command="load" />
+  
+  <!-- load the controllers -->
+  <node name="controller_manager" pkg="controller_manager" type="spawner" output="screen" 
+      args="lwr_0_joint
+			lwr_1_joint
+			lwr_2_joint
+			lwr_3_joint
+			lwr_4_joint
+			lwr_5_joint 
+			lwr_6_joint
+			joint_state_controller"/>
+  
+  <node name="state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+  
+</launch>

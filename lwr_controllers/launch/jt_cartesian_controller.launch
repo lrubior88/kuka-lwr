@@ -2,7 +2,7 @@
 <launch>
   
   <!-- start effort controllers -->
-  <include file="$(find grips_control)/launch/grips_effort_controllers.launch"/>
+  <include file="$(find lwr_controllers)/launch/lwr_effort_controllers.launch"/>
   
   <!-- PyKDL Jacobian Transpose Cartesian Controller -->
   <node name="jt_cartesian_controller" pkg="lwr_controllers" type="jt_cartesian_controller.py" output="screen">
@@ -15,6 +15,6 @@
   </node>
   
   <!-- Initial position -->
-  <node name="initial_xyz_pos" pkg="rostopic" type="rostopic" args="pub -1 /lwr/ik_command geometry_msgs/PoseStamped '{header: {seq: 0, stamp: {secs: 0, nsecs: 0}, frame_id: base_link}, pose: { position: { x: 0.25, y: 0.9, z: 0.5 }, orientation: {x: -0.7071, y: 0, z: 0, w: 0.7071 } } }'" />
+  <node name="initial_xyz_pos" pkg="rostopic" type="rostopic" args="pub -1 /lwr/ik_command geometry_msgs/PoseStamped '{header: {seq: 0, stamp: {secs: 0, nsecs: 0}, frame_id: base_link}, pose: { position: { x: 0.25, y: 0.5, z: 0.5 }, orientation: {x: -0.7071, y: 0, z: 0, w: 0.7071 } } }'" />
 
 </launch>
