@@ -53,13 +53,18 @@
 		<origin xyz="0 0 0.11" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
 		<limit lower="${-170 * M_PI / 180}" upper="${170 * M_PI / 180}" effort="204" velocity="${velocity_scale * 110 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-168 * M_PI / 180}" soft_upper_limit="${168 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_base_link"/>
 		<child link="${name}_1_link"/>
 	</joint>
+	
+<!--
+	<joint name="${name}_0_joint" type="fixed">
+		<origin xyz="0 0 0.11" rpy="0 0 0"/>
+		<parent link="${name}_base_link"/>
+		<child link="${name}_1_link"/>
+	</joint>
+-->
 
 	<link name="${name}_1_link">
 		<inertial>
@@ -101,13 +106,17 @@
 		<axis xyz="0 -1 0"/>
 		<limit lower="${-120 * M_PI / 180}" upper="${120 * M_PI / 180}"
 			 effort="306" velocity="${velocity_scale * 110 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-118 * M_PI / 180}" soft_upper_limit="${118 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_1_link"/>
 		<child link="${name}_2_link"/>
 	</joint>
+<!--
+	<joint name="${name}_1_joint" type="fixed">
+		<origin xyz="0 0 0.2005" rpy="0 1.57 0"/>
+		<parent link="${name}_1_link"/>
+		<child link="${name}_2_link"/>
+	</joint>
+-->
 
 	<link name="${name}_2_link">
 		<inertial>
@@ -145,14 +154,19 @@
 	</link>
 
 	<!-- Fourth element of the arm. z-axis -->
+<!--
 	<joint name="${name}_2_joint" type="revolute">
 		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
 		<limit lower="${-170 * M_PI / 180}" upper="${170 * M_PI / 180}" effort="204" velocity="${velocity_scale * 130 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-168 * M_PI / 180}" soft_upper_limit="${168 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
+		<parent link="${name}_2_link"/>
+		<child link="${name}_3_link"/>
+	</joint>
+-->
+	
+	<joint name="${name}_2_joint" type="fixed">
+		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<parent link="${name}_2_link"/>
 		<child link="${name}_3_link"/>
 	</joint>
@@ -197,13 +211,17 @@
 		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<axis xyz="0 1 0"/>
 		<limit lower="${-120 * M_PI / 180}" upper="${120 * M_PI / 180}" effort="306" velocity="${velocity_scale * 130 * M_PI / 180}" />
-<!--
-			<safety_controller soft_lower_limit="${-118 * M_PI / 180}" soft_upper_limit="${118 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_3_link"/>
 		<child link="${name}_4_link"/>
 	</joint>
+<!--
+	<joint name="${name}_3_joint" type="fixed">
+		<origin xyz="0 0 0.20" rpy="0 -1.57 0"/>
+		<parent link="${name}_3_link"/>
+		<child link="${name}_4_link"/>
+	</joint>
+-->
 
 	<link name="${name}_4_link">
 		<inertial>
@@ -245,9 +263,6 @@
 		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
 		<limit lower="${-170 * M_PI / 180}" upper="${170 * M_PI / 180}" effort="204" velocity="${velocity_scale * 130 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-168 * M_PI / 180}" soft_upper_limit="${168 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_4_link"/>
 		<child link="${name}_5_link"/>
@@ -294,9 +309,6 @@
 		<origin xyz="0 0 0.19" rpy="0 0 0"/>
 		<axis xyz="0 -1 0"/>
 		<limit lower="${-120 * M_PI / 180}" upper="${120 * M_PI / 180}" effort="306" velocity="${velocity_scale * 180 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-118 * M_PI / 180}" soft_upper_limit="${118 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_5_link"/>
 		<child link="${name}_6_link"/>
@@ -329,9 +341,6 @@
 		<origin xyz="0 0 0.078" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
 		<limit lower="${-170 * M_PI / 180}" upper="${170 * M_PI / 180}" effort="204" velocity="${velocity_scale * 180 * M_PI / 180}" />
-<!--
-		<safety_controller soft_lower_limit="${-168 * M_PI / 180}" soft_upper_limit="${168 * M_PI / 180}" k_position="30" k_velocity="30"/>
--->
 		<dynamics friction="10.0" damping="1.0"/>
 		<parent link="${name}_6_link"/>
 		<child link="${name}_7_link"/>
