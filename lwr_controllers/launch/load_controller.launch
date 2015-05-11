@@ -7,5 +7,7 @@
 	<rosparam file="$(find lwr_controllers)/config/lwr_controllers.yaml" command="load"/>
 	
 	<node ns="lwr" name="controller_manager" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller $(arg controller)"/> 
+ 	<node ns="lwr" name="controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="--stopped $(arg stopped_controllers)"/> 
+
 </launch>
 

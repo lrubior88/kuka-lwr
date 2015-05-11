@@ -4,8 +4,13 @@ tip_link: lwr_7_link
 # Publish Rate in [Hz] of the torque commands
 publish_rate: 500
 
+
 # Joint Torque controller gains
 gains:
   #    X trans    Y trans   Z trans   X rot   Y rot   Z rot
-  Kp: [2000.0,    2000.0,   3000.0,   200.0,  200.0,  200.0]
-  Kd: [100.0,      100.0,    100.0,     0.5,    0.5,    0.5]
+  Kp: [2000.0,    2000.0,   2000.0,   50.0,  50.0,  50.0]
+  Kd: [150.0,      150.0,    150.0,    0.5,   0.5,   0.5]
+  #    Joint per joint
+  K_posture: 1.0
+  #~ K_posture: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  #~ K_posture: [50.0, 50.0, 50.0, 50.0, 0.0, 0.0, 0.0]

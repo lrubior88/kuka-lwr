@@ -21,9 +21,7 @@
 
 		<simple_transmission name ="${name}" joint="0" />
 		<simple_transmission name ="${name}" joint="1" />
-<!--
 		<simple_transmission name ="${name}" joint="2" />
--->
 		<simple_transmission name ="${name}" joint="3" />
 		<simple_transmission name ="${name}" joint="4" />
 		<simple_transmission name ="${name}" joint="5" />

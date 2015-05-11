@@ -27,15 +27,30 @@ class JTCartesianController(object):
     gains = read_parameter('~gains', dict())
     self.kp = joint_list_to_kdl(gains['Kp'])
     self.kd = joint_list_to_kdl(gains['Kd'])
+    self.k_posture = np.matrix(gains['K_posture'] * 7).T
     self.publish_rate = read_parameter('~publish_rate', 500)
     self.frame_id = read_parameter('~frame_id', 'lwr_base_link')
     self.tip_link = read_parameter('~tip_link', 'lwr_7_link')
+    
     # Kinematics
     self.urdf = URDF.from_parameter_server(key='robot_description')
     self.kinematics = KDLKinematics(self.urdf, self.frame_id, self.tip_link)
+    
     # Get the joint names and limits
     self.joint_names = self.kinematics.get_joint_names()
     self.num_joints = len(self.joint_names)
+    self.lower_limits = np.zeros(self.num_joints)
+    self.upper_limits = np.zeros(self.num_joints)
+    
+    # KDL joint may be in a different order than expected
+    kdl_lower_limits, kdl_upper_limits = self.kinematics.get_joint_limits()
+    for i, name in enumerate(self.kinematics.get_joint_names()):
+      if name in self.joint_names:
+        idx = self.joint_names.index(name)
+        self.lower_limits[idx] = kdl_lower_limits[i]
+        self.upper_limits[idx] = kdl_upper_limits[i]
+    self.middle_values = (self.upper_limits + self.lower_limits) / 2.0
+    
     # Set-up publishers/subscribers
     self.torque_pub = dict()
     for i, name in enumerate(self.joint_names):
@@ -44,7 +59,10 @@ class JTCartesianController(object):
     rospy.Subscriber('/lwr/endpoint_state', EndpointState, self.endpoint_state_cb)
     rospy.Subscriber('/lwr/ik_command', PoseStamped, self.ik_command_cb)
     
-    rospy.loginfo('Running Cartesian controller for Grips')
+    self.error_pub = rospy.Publisher('/x_error', Float64)
+    
+    rospy.loginfo('Running Cartesian controller for LWR')
+    
     # Start torque controller timer
     self.cart_command = None
     self.endpoint_state = None
@@ -82,13 +100,34 @@ class JTCartesianController(object):
     xdot = TwistMsgToKDL(self.endpoint_state.twist)
     # Calculate a Cartesian restoring wrench
     x_error = PyKDL.diff(x_target, x)
+		
     wrench = np.matrix(np.zeros(6)).T
     for i in range(len(wrench)):
+      self.error_pub.publish(x_error[i])
       wrench[i] = -(self.kp[i] * x_error[i] + self.kd[i] * xdot[i])
     # Calculate the jacobian
     J = self.kinematics.jacobian(q)
     # Convert the force into a set of joint torques. tau = J^T * wrench
-    tau = J.T * wrench
+    tau_pose = J.T * wrench
+    
+    #~ ##  Add the joint limits constraint using the Jacobian pseudo-inverse and Nullspace computation
+    #~ #   This method allows the projection of an objective function w(q) in the null space of J
+    #~ posture_error = np.zeros(self.num_joints)
+    #~ for i in range(self.num_joints):
+      #~ posture_error[i] = -0.5 * ((q[i] - self.middle_values[i]) / (self.upper_limits[i] - self.lower_limits[i])) ** 2
+    #~ posture_error = np.matrix(posture_error).T
+    #~ I = np.matrix(np.identity(self.num_joints))
+    #~ # Inertia-weighted pseudoinverse of the Jacobian Matrix
+    #~ J_T = J.T
+    #~ M_inv = np.linalg.inv(self.kinematics.inertia(q))
+    #~ J_pinv = M_inv * J_T * np.linalg.inv(J * M_inv * J_T)
+    #~ N = (I - J_T * J_pinv.T)
+    #~ tau_posture = N * np.multiply(posture_error, self.k_posture)
+    tau_posture = 0
+
+    # Populate the joint_torques
+    tau = tau_pose + tau_posture
+        
     # Publish the joint_torques
     for i, name in enumerate(self.joint_names):
       self.torque_pub[name].publish(tau[i])

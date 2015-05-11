@@ -8,6 +8,7 @@
   <node name="controller_manager" pkg="controller_manager" type="spawner" output="screen" 
       args="lwr_0_joint
 			lwr_1_joint
+			lwr_2_joint
 			lwr_3_joint
 			lwr_4_joint
 			lwr_5_joint 

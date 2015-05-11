@@ -154,7 +154,6 @@
 	</link>
 
 	<!-- Fourth element of the arm. z-axis -->
-<!--
 	<joint name="${name}_2_joint" type="revolute">
 		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
@@ -163,13 +162,14 @@
 		<parent link="${name}_2_link"/>
 		<child link="${name}_3_link"/>
 	</joint>
--->
 	
+<!--
 	<joint name="${name}_2_joint" type="fixed">
 		<origin xyz="0 0 0.20" rpy="0 0 0"/>
 		<parent link="${name}_2_link"/>
 		<child link="${name}_3_link"/>
 	</joint>
+-->
 
 	<link name="${name}_3_link">
 		<inertial>
